@@ -1,4 +1,4 @@
-
+import { addHistoryEntry } from "./history.js";
 let displayValue = "0";
 let firstOperand = null;
 let operator = null;
@@ -119,6 +119,7 @@ function chooseOperator(nextOperator, container) {
   updateDisplay(container);
 }
 
+
 function performEquals(container) {
   clearStatus(container);
 
@@ -128,9 +129,26 @@ function performEquals(container) {
 
   try {
     const secondOperand = Number(displayValue);
-    const result = calculate(firstOperand, secondOperand, operator);
+    const calculationOperator = operator;
+    const firstNumber = firstOperand;
 
-    displayValue = formatResult(result);
+    const result = calculate(
+      firstNumber,
+      secondOperand,
+      calculationOperator
+    );
+
+    const formattedResult = formatResult(result);
+
+    // Save the successful calculation to History.
+    addHistoryEntry({
+      calculator: "Basic Calculator",
+      expression: `${firstNumber} ${calculationOperator} ${secondOperand}`,
+      result: formattedResult
+    });
+
+    // Update the calculator display.
+    displayValue = formattedResult;
     firstOperand = null;
     operator = null;
     waitingForSecondOperand = false;
@@ -142,6 +160,7 @@ function performEquals(container) {
 
   updateDisplay(container);
 }
+
 
 function performPercent(container) {
   clearStatus(container);

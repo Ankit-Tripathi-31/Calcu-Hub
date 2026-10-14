@@ -11,6 +11,10 @@ import {
   renderBMICalculator
 } from "./modules/bmi-calculator.js";
 
+import {
+  renderHistory
+} from "./modules/history.js";
+
 const pageTitle = document.getElementById("page-title");
 const pageContent = document.getElementById("page-content");
 
@@ -54,6 +58,11 @@ const pages = {
     description: "Enter your height and weight to calculate your BMI.",
     status: "Coming in Module 4"
   },
+  history: {
+  title: "Calculation History",
+  description: "Review your recent calculations",
+  status: "Ready"
+},
   settings: {
     title: "Settings",
     description: "Preferences and additional application features will be added here.",
@@ -164,6 +173,11 @@ function renderModule(pageId) {
 
 if (pageId === "bmi") {
   renderBMICalculator(pageContent);
+  return;
+}
+
+if (pageId === "history") {
+  renderHistory(pageContent);
   return;
 }
 

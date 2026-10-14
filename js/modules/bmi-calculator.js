@@ -1,4 +1,4 @@
-
+import { addHistoryEntry } from "./history.js";
 export function renderBMICalculator(container) {
   container.innerHTML = `
     <section class="bmi-workspace">
@@ -187,6 +187,12 @@ export function renderBMICalculator(container) {
     }
 
     const result = getBMICategory(bmi);
+    // Save the successful BMI calculation to History.
+addHistoryEntry({
+  calculator: "BMI Calculator",
+  expression: `Weight: ${weight} kg, Height: ${heightCm} cm`,
+  result: `BMI: ${bmi.toFixed(1)} — ${result.name}`
+});
 
     scoreElement.textContent = bmi.toFixed(1);
     categoryElement.textContent = result.name;

@@ -1,4 +1,4 @@
-
+import { addHistoryEntry } from "./history.js";
 export function renderSimpleInterest(container) {
   container.innerHTML = `
     <section class="interest-workspace">
@@ -178,17 +178,42 @@ export function renderSimpleInterest(container) {
     const timeInYears =
       unit === "months" ? timeInput / 12 : timeInput;
 
-    const interest = (principal * rate * timeInYears) / 100;
-    const totalAmount = principal + interest;
+ 
+    
+const interest = (principal * rate * timeInYears) / 100;
+const totalAmount = principal + interest;
 
-    if (
-      !Number.isFinite(interest) ||
-      !Number.isFinite(totalAmount)
-    ) {
-      errorElement.textContent =
-        "These values are too large to calculate safely.";
-      return;
-    }
+if (
+  !Number.isFinite(interest) ||
+  !Number.isFinite(totalAmount)
+) {
+  errorElement.textContent =
+    "These values are too large to calculate safely.";
+  return;
+}
+
+// Save the successful calculation to History.
+addHistoryEntry({
+  calculator: "Simple Interest",
+  expression: `Principal: ₹${principal}, Rate: ${rate}%, Time: ${timeInput} ${unit}`,
+  result: `Interest: ${formatCurrency(interest)}, Total: ${formatCurrency(totalAmount)}`
+});
+
+container.querySelector("#interest-result").textContent =
+  formatCurrency(interest);
+
+container.querySelector("#principal-result").textContent =
+  formatCurrency(principal);
+
+container.querySelector("#total-result").textContent =
+  formatCurrency(totalAmount);
+
+container.querySelector("#rate-result").textContent =
+  `${rate}%`;
+
+container.querySelector("#time-result").textContent =
+  String(Number(timeInYears.toFixed(6)));
+
 
     container.querySelector("#interest-result").textContent =
       formatCurrency(interest);
